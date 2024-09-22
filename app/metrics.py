@@ -1,8 +1,13 @@
 from django.utils.formats import number_format
 from django.utils import timezone
-from products.models import Product
-from outflows.models import Outflow
 from django.db.models import Sum, F
+from brands.models import Brand
+from categories.models import Category
+from outflows.models import Outflow
+from products.models import Product
+
+
+
 
 def get_product_metrics():
     products = Product.objects.all()
@@ -71,3 +76,15 @@ def get_daily_sales_quantity_data():
         dates=dates,
         values=quantities,
     )
+
+
+def get_graphic_product_category_metric():
+    categories = Category.objects.all()
+    # dict compreension
+    return {category.name: Product.objects.filter(category=category).count() for category in categories}
+
+
+def get_graphic_product_brand_metric():
+    brands = Brand.objects.all()
+    # dict compreension
+    return {brand.name: Product.objects.filter(brand=brand).count() for brand in brands}
