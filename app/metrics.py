@@ -1,7 +1,8 @@
 from django.utils.formats import number_format
+from django.utils import timezone
 from products.models import Product
 from outflows.models import Outflow
-from django.db.models import Sum
+from django.db.models import Sum, F
 
 def get_product_metrics():
     products = Product.objects.all()
@@ -31,4 +32,42 @@ def get_sales_metrics():
         total_sales_value=number_format(total_sales_value, decimal_pos=2, force_grouping=True),
         total_sales_profit=number_format(total_sales_profit, decimal_pos=2, force_grouping=True),
     ) 
- 
+
+
+def get_daily_sales_data():
+    today = timezone.now().date() # dia de hoje
+    # lista de str com 7 ultimos dias
+    dates = [str(today - timezone.timedelta(days=i)) for i in range(6, -1, -1)]
+    values = list()
+    
+    # calcular para cada dia soma das vendas
+    for date in dates:
+        # filtra vendas por dia, depois usa aggregate para somar venda*qtd
+        sales_total = Outflow.objects.filter(
+            created_at__date=date).aggregate(
+                total_sales=Sum(F('product__selling_price') * F('quantity'))
+                )['total_sales'] or 0
+        # obs: usar o "or 0" para quando nao houver vendas retornar 0
+        values.append(float(sales_total))  # add na lista final o total do dia
+    
+    return dict(
+        dates=dates,
+        values=values,
+    )
+
+
+def get_daily_sales_quantity_data():
+    today = timezone.now().date() # dia de hoje
+    # lista de str com 7 ultimos dias
+    dates = [str(today - timezone.timedelta(days=i)) for i in range(6, -1, -1)]
+    quantities = list()
+
+    # quantidade de vendas por dia 
+    for date in dates:
+        sales_quantity = Outflow.objects.filter(created_at__date=date).count()
+        quantities.append(sales_quantity)  # add na lista final o total do dia
+    
+    return dict(
+        dates=dates,
+        values=quantities,
+    )
