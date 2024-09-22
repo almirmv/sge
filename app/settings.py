@@ -46,6 +46,11 @@ INSTALLED_APPS = [
     'outflows',
 ]
 
+LOGIN_URL = 'login'         # configura rota da pagina do login
+LOGIN_REDIRECT_URL = '/'    # apos login redireciona para home
+LOGOUT_REDIRECT_URL = '/login/'  # apos logout redireciona para login
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
