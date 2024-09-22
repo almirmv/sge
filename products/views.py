@@ -4,6 +4,7 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 from . import models, forms
 from categories.models import Category
 from brands.models import Brand
+from app.metrics import get_product_metrics
 
 
 class ProductListView(ListView):
@@ -32,6 +33,7 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)    # pega contexto original
+        context['product_metrics'] = get_product_metrics()
         context['categories'] = Category.objects.all()  # adicona categories ao contexto
         context['brands'] = Brand.objects.all()         # adicona brands ao contexto
         return context
