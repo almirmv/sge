@@ -1,10 +1,11 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from . import models, forms
 
 
-class InflowListView(LoginRequiredMixin, ListView):
+class InflowListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    permission_required = 'inflows.view_inflow'  # app.action_model
     model = models.Inflow  # classe vai montar queryset com Inflow.objects.all()
     template_name = 'inflow_list.html'
     context_object_name = 'inflows'
@@ -18,14 +19,16 @@ class InflowListView(LoginRequiredMixin, ListView):
         return queryset
 
 
-class InflowCreateView(LoginRequiredMixin, CreateView):
+class InflowCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    permission_required = 'inflows.add_inflow'
     model = models.Inflow
     template_name = 'inflow_create.html'
     form_class = forms.InflowForm
     success_url = reverse_lazy('inflow_list')
 
 
-class InflowDetailView(LoginRequiredMixin, DetailView):
+class InflowDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+    permission_required = 'inflows.view_inflow'
     model = models.Inflow
     template_name = 'inflow_detail.html'
 
