@@ -9,7 +9,7 @@ class CategoryForm(forms.ModelForm):
         fields = ['name', 'description']
         # passando o visual com classes bootstrap
         widgets = {
-            'name': forms.TextInput(attrs={'class':'form-control'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
         labels = {

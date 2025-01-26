@@ -7,11 +7,11 @@ class OutflowForm(forms.ModelForm):
 
     class Meta:
         model = models.Outflow
-        fields = [ 'product', 'quantity', 'description']
+        fields = ['product', 'quantity', 'description']
         # passando o visual com classes bootstrap
         widgets = {           
-            'product': forms.Select(attrs={'class':'form-control'}),
-            'quantity': forms.NumberInput(attrs={'class':'form-control'}),            
+            'product': forms.Select(attrs={'class': 'form-control'}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control'}),            
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
         labels = {           
@@ -19,7 +19,7 @@ class OutflowForm(forms.ModelForm):
             'quantity': 'Quantidade',
             'description': 'Descrição'
         }
-    
+
     def clean_quantity(self):
         quantity = self.cleaned_data.get('quantity')
         product = self.cleaned_data.get('product')

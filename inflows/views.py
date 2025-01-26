@@ -1,7 +1,7 @@
 from rest_framework import generics
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, DetailView
 from . import models, forms, serializers
 
 
@@ -34,14 +34,14 @@ class InflowDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     template_name = 'inflow_detail.html'
 
 
-#class InflowUpdateView(UpdateView):
+# class InflowUpdateView(UpdateView):
 #    model = models.Inflow
 #    template_name = 'inflow_update.html'
 #    form_class = forms.InflowForm
 #   success_url = reverse_lazy('inflow_list')
 
 
-#class InflowDeleteView(DeleteView):
+# class InflowDeleteView(DeleteView):
 #    model = models.Inflow
 #    template_name = 'inflow_delete.html'
 #    success_url = reverse_lazy('inflow_list')

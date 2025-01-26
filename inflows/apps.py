@@ -7,4 +7,4 @@ class InflowsConfig(AppConfig):
 
     # habilitar o signals
     def ready(self):
-        import inflows.signals
+        import inflows.signals  # noqa : F401
